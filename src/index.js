@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const flash = require('connect-flash');
 const session = require('express-session');
-const MySQLStore = require('express-mysql-session');
+const MySQLStore = require('express-mysql-session')(session);
 const { database } = require('./keys');
 
 // Initializations
@@ -25,9 +25,9 @@ app.set('view engine', '.hbs');
 // Middlewares
 app.use(session({
     secret: 'faztsession',
+//  store: new MySQLStore(database),
     resave: false,
-    saveUninitialized: false,
-    store: new MySQLStore(database)
+    saveUninitialized: false
 }));
 app.use(flash());
 app.use(morgan('dev'));
